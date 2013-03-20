@@ -1,0 +1,68 @@
+# DXRubyで幼女に追われるゲームを作る.
+
+
+require 'dxruby'
+#require 'scene'  #予定
+#require 'Vox'    #予定
+#Font.install("hogehoge.ttf") #適宜フォントを検索
+
+class Main
+
+  def initialize
+  
+  end
+  
+  def act
+  #return nil     #暫定
+  end
+  
+  def render
+  #mainでは多分使わないでふ
+  end
+end
+
+#Escキー押下でゲーム(プログラム)終了
+class Exit_key
+  def exit_key
+    if Input.keyPush?(K_ESCAPE)
+      exit
+    end
+  end
+end
+
+
+#class Game_over
+#  def initialize
+#    @gameover = Image.load('IMG/BGCG/gameover.png') #適宜容易
+#  end
+#  def act
+#    return nil
+#  end
+#  def render
+#    Window.draw(0,0,@gameover)
+#    p "render"
+#  end
+#end
+
+
+############################
+Scenes = {#インスタンスを列挙体のように振舞わせる
+       :start  => Logo.new,
+       :title  => Title.new, 
+       :opn    => Opn.new, 
+  #   :debug => Test.new,
+  #   :over => Game_over.new
+}
+$scene = Scenes[:start]
+############################
+
+ESC = Exit_key.new
+
+Window.gameloop do  
+ESC.exit_key
+ next_scene = $scene.act
+ if next_scene
+    $scene = Scenes[next_scene]
+ end
+  $scene.render()
+end
